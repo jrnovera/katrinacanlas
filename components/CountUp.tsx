@@ -22,25 +22,28 @@ function markPlayed() {
 }
 
 // Renders the final value on the server and with reduced motion, so nothing is lost without JS.
+// Pass `persist={false}` to count up on every mount instead of once per session.
 export default function CountUp({
   value,
   decimals = 0,
   prefix = "",
   suffix = "",
   duration = 1800,
+  persist = true,
 }: {
   value: number;
   decimals?: number;
   prefix?: string;
   suffix?: string;
   duration?: number;
+  persist?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(value);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || hasPlayed() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!el || (persist && hasPlayed()) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let frame = 0;
     setDisplay(0);
@@ -53,7 +56,7 @@ export default function CountUp({
           const t = Math.min((now - start) / duration, 1);
           setDisplay(value * (1 - Math.pow(1 - t, 3)));
           if (t < 1) frame = requestAnimationFrame(tick);
-          else markPlayed();
+          else if (persist) markPlayed();
         };
         frame = requestAnimationFrame(tick);
       },
@@ -64,7 +67,7 @@ export default function CountUp({
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [value, duration]);
+  }, [value, duration, persist]);
 
   return (
     <span ref={ref} className="tabular-nums">
