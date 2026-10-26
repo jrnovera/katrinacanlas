@@ -21,7 +21,6 @@ import {
   workBrands,
 } from "@/lib/site";
 import portrait from "@/public/portfolio/katrina-portrait.png";
-import selfie from "@/public/portfolio/katrina-selfie.jpg";
 
 export const metadata: Metadata = {
   title: "Work & Case Studies",
@@ -344,8 +343,8 @@ function Contact() {
         aria-hidden
         className="pointer-events-none absolute -left-40 bottom-0 size-[520px] rounded-full bg-volt/10 blur-[140px]"
       />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-20 px-6 py-16 md:py-28 lg:grid-cols-12 lg:gap-10">
-        <Reveal className="lg:col-span-7">
+      <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-28">
+        <Reveal>
           <SectionTitle>Contact</SectionTitle>
           <span aria-hidden className="rule mt-4 block h-px w-24 bg-volt" />
           <p className="mt-6 max-w-2xl text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
@@ -366,52 +365,7 @@ function Contact() {
             {EMAIL}
           </a>
         </Reveal>
-
-        <Reveal delay={150} className="reveal-scale lg:col-span-5">
-          <ContactPortrait />
-        </Reveal>
       </div>
     </section>
-  );
-}
-
-function ContactPortrait() {
-  const badge = `${site.role.split(" | ").join(" • ")} • `.toUpperCase();
-
-  return (
-    <div className="relative mx-auto w-[78%] max-w-sm sm:w-full">
-      <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rotate-3 rounded-2xl border border-volt/50" />
-      <div className="wipe relative aspect-[4/5] -rotate-2 overflow-hidden rounded-2xl bg-card shadow-2xl">
-        <Image
-          src={selfie}
-          alt={`${site.name} smiling outdoors`}
-          fill
-          placeholder="blur"
-          sizes="(min-width: 1024px) 384px, 78vw"
-          className="object-cover"
-        />
-      </div>
-
-      {/* Rotating badge that doubles as a contact link. */}
-      <a
-        href={HIRE_MAILTO}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Discuss Your Project"
-        className="group absolute -bottom-12 -left-10 grid size-32 place-items-center rounded-full border border-line bg-ink/90 backdrop-blur-md sm:-left-14 sm:size-36"
-      >
-        <svg viewBox="0 0 100 100" aria-hidden className="spin-slow absolute inset-0 size-full">
-          <defs>
-            <path id="badge-ring" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
-          </defs>
-          <text className="fill-paper/80 text-[8px] font-medium" textLength={236} lengthAdjust="spacing">
-            <textPath href="#badge-ring">{badge}</textPath>
-          </text>
-        </svg>
-        <span className="grid size-12 place-items-center rounded-full bg-volt text-lg text-ink transition-transform duration-300 group-hover:scale-110 sm:size-14">
-          ↗
-        </span>
-      </a>
-    </div>
   );
 }
